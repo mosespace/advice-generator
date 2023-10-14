@@ -1,9 +1,8 @@
 import Hero from "@/components/Hero";
-import Image from "next/image";
 
 export default function Home() {
   return (
-    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
+    <main className='bg-[#1f2632] h-screen flex flex-col justify-center items-center'>
       <Hero />
     </main>
   );
