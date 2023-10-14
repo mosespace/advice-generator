@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const url = process.env.NEXT_PUBLIC_NINJA_QUOTES_KEY;
+const url = process.env.NEXT_PUBLIC_NINJA_QUOTES_URL;
 const options = {
   method: "GET",
   headers: {
