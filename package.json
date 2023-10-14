@@ -1,5 +1,6 @@
 {
-  "name": "demo-pro",
+  "name": "advice-generator",
+  "license": "MIT",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -12,7 +13,8 @@
     "next": "13.5.4",
     "react": "^18",
     "react-dom": "^18",
-    "react-icons": "^4.11.0"
+    "react-icons": "^4.11.0",
+    "sass": "^1.69.3"
   },
   "devDependencies": {
     "autoprefixer": "^10",
