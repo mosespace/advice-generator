@@ -16,6 +16,6 @@ async function getQuotes() {
 
 export async function GET(request) {
   const result = await getQuotes();
-  console.log(result);
+  // console.log(result);
   return NextResponse.json(result);
 }
