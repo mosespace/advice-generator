@@ -18,6 +18,7 @@ export default function Hero() {
   const [quotes, setQuotes] = useState([]);
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
   const [Pause, setPause] = useState(false); // Corrected variable name to "Pause"
+  const [currentIcon, setCurrentIcon] = useState(<BsFillDice5Fill size={25} />);
 
   // Function to fetch quotes from your API
   async function getQuotes() {
@@ -33,9 +34,26 @@ export default function Hero() {
     if (quotes.length > 0) {
       const nextIndex = (currentQuoteIndex + 1) % quotes.length;
       setCurrentQuoteIndex(nextIndex);
+      switchIcon(); // Call the function to change the icon
     }
   };
 
+  const switchIcon = () => {
+    const icons = [
+      <BsFillDice1Fill size={25} />,
+      <BsFillDice2Fill size={25} />,
+      <BsFillDice3Fill size={25} />,
+      <BsFillDice5Fill size={25} />,
+      <BsFillDice6Fill size={25} />,
+    ];
+    // Find the index of the current icon in the array
+    const currentIndex = icons.findIndex(
+      (icon) => icon.props.size === currentIcon.props.size
+    );
+    // Calculate the index of the next icon
+    const nextIndex = (currentIndex + 1) % icons.length;
+    setCurrentIcon(icons[nextIndex]);
+  };
   useEffect(() => {
     getQuotes(); // Fetch quotes when the component mounts
   }, []);
@@ -118,13 +136,7 @@ export default function Hero() {
                 onClick={changeQuote}
                 className='bg-[#52ffa8] rounded-full p-4 text-[#323a49] transition-colors hover:shadow-xl hover:shadow-emerald-400'
               >
-                {changeQuote ? (
-                  <BsFillDice3Fill /> || <BsFillDice2Fill /> || (
-                    <BsFillDice1Fill />
-                  ) || <BsFillDice6Fill />
-                ) : (
-                  <BsFillDice5Fill size={25} />
-                )}
+                {currentIcon}
               </button>
             </div>
           </div>
