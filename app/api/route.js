@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 
-const url = process.env.NEXT_PUBLIC_NINJA_QUOTES_URL;
+const url = process.env.NEXT_PUBLIC_RAPID_API_URL;
 const options = {
   method: "GET",
   headers: {
-    "X-Api-Key": process.env.NEXT_PUBLIC_NINJA_QUOTES_KEY,
-    "X-RapidAPI-Host": process.env.NEXT_PUBLIC_NINJA_QUOTES_HOST,
+    "X-RapidAPI-Key": process.env.NEXT_PUBLIC_RAPID_API_KEY,
+    "X-RapidAPI-Host": process.env.NEXT_PUBLIC_RAPID_API_HOST,
   },
 };
 
