@@ -3,46 +3,67 @@ import { FaPause } from "react-icons/fa";
 import { RiTwitterXLine } from "react-icons/ri";
 import React, { useEffect, useState } from "react";
 import { RiErrorWarningFill } from "react-icons/ri";
-import { BsFillDice5Fill, BsDiscord, BsLinkedin } from "react-icons/bs";
+import {
+  BsFillDice5Fill,
+  BsDiscord,
+  BsLinkedin,
+  BsFillDice3Fill,
+  BsFillDice2Fill,
+  BsFillDice1Fill,
+  BsFillDice6Fill,
+} from "react-icons/bs";
 import Link from "next/link";
 
 export default function Hero() {
-  const [quote, setQuote] = useState(null);
-  // console.log(quote.quote);
-
+  const [quotes, setQuotes] = useState([]);
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
-  const [Pause, setPause] = useState(false);
+  const [Pause, setPause] = useState(false); // Corrected variable name to "Pause"
 
+  // Function to fetch quotes from your API
   async function getQuotes() {
     const response = await fetch(process.env.NEXT_PUBLIC_LOCALHOST, {
       cache: "no-store",
     });
-    const quotes = await response.json([{}]);
-    // console.log(quotes);
-    setQuote(quotes);
+    const data = await response.json();
+    setQuotes(data);
   }
 
+  // Function to change the displayed quote
+  const changeQuote = () => {
+    if (quotes.length > 0) {
+      const nextIndex = (currentQuoteIndex + 1) % quotes.length;
+      setCurrentQuoteIndex(nextIndex);
+    }
+  };
+
   useEffect(() => {
-    getQuotes();
+    getQuotes(); // Fetch quotes when the component mounts
   }, []);
 
-  const changeQuote = () => {
-    // Increment the current quote index, and loop back to 0 if it goes beyond the array length
-    const nextIndex = (currentQuoteIndex + 1) % quote.length;
-    setCurrentQuoteIndex(nextIndex);
-  };
+  // Use setInterval to change quotes every 1 minute (60000 milliseconds)
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (!Pause) {
+        // Corrected variable name to "Pause"
+        changeQuote();
+      }
+    }, 60000);
+
+    return () => {
+      clearInterval(intervalId); // Clear the interval when the component unmounts
+    };
+  }, [Pause, currentQuoteIndex, quotes]); // Corrected variable name to "Pause"
 
   const togglePause = () => {
-    setPause(true);
+    setPause(!Pause); // Corrected variable name to "Pause"
   };
 
+  const quote = quotes[currentQuoteIndex];
   return (
     <>
       {quote ? (
         <>
-          <div
-            className='bg-[#323a49] w-[21.5rem] sm:w-[30rem] text-center px-4 sm:px-10 py-[2.25rem] rounded-lg flex flex-col items-center gap-[25px] relative'
-          >
+          <div className='bg-[#323a49] w-[21.5rem] sm:w-[30rem] text-center px-4 sm:px-10 py-[2.25rem] rounded-lg flex flex-col items-center gap-[25px] relative'>
             {Pause ? (
               <>
                 <div className='text-[#52ffa8] text-[0.75rem] tracking-[3px] leading-none'>
@@ -73,10 +94,10 @@ export default function Hero() {
             ) : (
               <>
                 <div className='text-[#52ffa8] text-[0.75rem] tracking-[3px] leading-none'>
-                  <h1>ADVICE # {quote.originator.master_id}</h1>
+                  <h1>ADVICE # {quote.id}</h1>
                 </div>
                 <p className='text-[#cee3e9] text-center font-extrabold text-[1.6rem]'>
-                  "{quote.content}"
+                  "{quote.text}"
                 </p>
               </>
             )}
@@ -97,7 +118,13 @@ export default function Hero() {
                 onClick={changeQuote}
                 className='bg-[#52ffa8] rounded-full p-4 text-[#323a49] transition-colors hover:shadow-xl hover:shadow-emerald-400'
               >
-                <BsFillDice5Fill size={25} />
+                {changeQuote ? (
+                  <BsFillDice3Fill /> || <BsFillDice2Fill /> || (
+                    <BsFillDice1Fill />
+                  ) || <BsFillDice6Fill />
+                ) : (
+                  <BsFillDice5Fill size={25} />
+                )}
               </button>
             </div>
           </div>
